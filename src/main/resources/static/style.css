@@ -1,0 +1,132 @@
+body {
+    background-color: #f1f1f1;
+}
+
+.modal-backdrop.fade {
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+.modal-backdrop.in {
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+
+.modal-backdrop.fade {
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+.modal-backdrop.fade.in {
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+.wrapper {
+    margin-top: 80px;
+    margin-bottom: 80px;
+}
+.form-signin {
+    max-width: 380px;
+    padding: 15px 35px 45px;
+    margin: 0 auto;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,0.1)}
+
+.form-control {
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+@include box-sizing(border-box);
+}
+
+input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+input[type="password"] {
+    margin-bottom: 20px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.header-userList {
+    color: #adadad;
+    background-color: #404040;
+    height: auto;
+}
+
+.left-panel {
+    background-color: white;
+    height: 100vh;
+}
+
+.right-panel {
+    background-color: #f1f1f1;
+}
+
+.table-userList {
+    border-radius: 5px;
+    box-shadow: grey;
+    border: 1px #b4b4b4;
+    background-color: white;
+    padding: 0;
+}
+
+.table-addUser {
+    background-color: white;
+    text-align: center;
+    padding: 0;
+
+}
+
+.button {
+    background-color: green;
+}
+
+menu-panel-left {
+    color: white;
+    background-color: #519ed4;
+}
+
+.left-menu, .right-menu {
+    color: #3f8ec4;
+}
+
+#message, #message1, #message2 {
+    font-weight: bold;
+    border-radius: 5px;
+    border-width: 0px;
+    background-color: #f1f1f1;
+    padding-left: 0px;
+}
+
+#button-logout {
+    text-align: right;
+
+}
+
+#button-logout a {
+    color: #adadad;
+}
+
+#button-edit {
+    background-color: #3ebddd;
+}
+
+#button-add {
+    background-color: #67bb6a;
+    position: relative;
+    left: 30%;
+}
+
+
+#button-close:hover, #button-edit-user:hover, #button-edit-user1:hover {
+    background-color: #3d89be;
+}
+
+#admin-panel {
+    color: #424242;
+}
+
+tr:nth-child(odd) { background-color: #FAFAFA; }
