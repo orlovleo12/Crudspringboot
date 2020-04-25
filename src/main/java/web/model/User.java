@@ -16,14 +16,25 @@ public class User implements UserDetails {
     @GeneratedValue(generator = "123")
     private int id;
 
-    private String name;
+    private String firstName;
 
-    private String login;
+    private String lastName;
+
+    private String age;
+
+    private String email;
 
     private String password;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<Role> roles;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
     public int getId() {
         return id;
@@ -31,14 +42,6 @@ public class User implements UserDetails {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getPassword() {
@@ -51,19 +54,35 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
+        return firstName;
     }
 
     public Set<Role> getRole() {
         return roles;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setRoles(Set<Role> roles) {

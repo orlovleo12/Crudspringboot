@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -38,6 +39,13 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void updateUser(User application) {
+        Set<Role> roles = new HashSet<>();
+        Iterator<Role> it = application.getRole().iterator();
+        while(it.hasNext()){
+            Role role = it.next();
+            roles.add(roleDaoImp.getRoleByName(role.getName()));
+        }
+        application.setRoles(roles);
         em.merge(application);
     }
 
@@ -53,8 +61,8 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public User getUserByUsername(String username) {
-        return (User) em.createQuery("FROM User where login =: login")
-                .setParameter("login", username)
+        return (User) em.createQuery("FROM User where email =: email")
+                .setParameter("email", username)
                 .getSingleResult();
     }
 

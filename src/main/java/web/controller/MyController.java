@@ -2,6 +2,7 @@ package web.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,16 +21,20 @@ public class MyController {
 
     @Autowired
     private UserServiсe UserServiceImpl;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView listContact(ModelAndView model) {
+
         List<User> listContact = UserServiceImpl.getAllUsers();
         model.addObject("listContact", listContact);
+        model.addObject("admin", listContact.get(0));
         model.setViewName("home");
         return model;
     }
 
-    @RequestMapping(value = "/admin/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/delete/{id}", method = RequestMethod.POST)
     public String deleteContact(@PathVariable("id") Integer id) {
         UserServiceImpl.deleteUser(id);
         return "redirect:/";
@@ -63,6 +68,7 @@ public class MyController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginPage() {
+        System.out.println(passwordEncoder.encode("admin"));
         return "login";
     }
 
