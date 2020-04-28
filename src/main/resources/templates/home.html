@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <script
             src="https://code.jquery.com/jquery-3.4.1.js"
             integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -16,6 +16,7 @@
             integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
             crossorigin="anonymous">
     <link rel="stylesheet" href="/style.css">
+
 </head>
 <body>
 
@@ -23,7 +24,7 @@
     <div class="row header-userList">
         <div class="col col-6">
             <h5>
-                <td th:text="${admin.email}"></td>
+
             </h5>
 
         </div>
@@ -57,6 +58,8 @@
                     </li>
                 </ul>
 
+
+
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div id="users-table" role="tabpanel" class="container-fluid tab-pane active"><br>
@@ -83,36 +86,17 @@
                             </tr>
                             </thead>
 
-                            <tbody class="table table-userList">
-
-                            <th:block th:each="user: ${listContact}">
-                                <tr>
-                                    <td th:text="${user.id}"></td>
-                                    <td th:text="${user.firstName}"></td>
-                                    <td th:text="${user.lastName}"></td>
-                                    <td th:text="${user.age}"></td>
-                                    <td th:text="${user.email}"></td>
-                                    <td th:text="${user.role}"></td>
-                                    <td scope="col">
-                                        <button type="button"
-                                                class="btn btn-primary"
-                                                id="button-edit"
-                                                data-toggle="modal"
-                                                data-target="#modalEdit"
-                                                th:utext="Edit"
-                                                th:attrappend="data-target=${user.id}">
-
-                                        </button>
-                                    </td>
+                            <tbody id="feedback" class="table table-userList">
+                            </tr>
                                     <!-- The Modal -->
-                                    <div class="modal" id="modalEdit" th:attrappend="id=${user.id}">
+                                    <div class="modal" id="modalEdit" >
                                         <div class="modal-dialog">
                                             <div class="modal-content">
 
                                                 <!-- Modal Header -->
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title"
-                                                        th:utext="'Edit user ' + ${user.lastName}"></h4>
+                                                    <h4 class="modal-title" name="bookId" value=""
+                                                        ></h4>
                                                     <button type="button" class="close" data-dismiss="modal">&times;
                                                     </button>
                                                 </div>
@@ -120,23 +104,22 @@
                                                 <!-- Modal body -->
                                                 <div class="modal-body">
 
-                                                    <form th:action="'/admin/edit/' + ${user.id}" method="POST">
+                                                    <form>
 
-                                                        <div class="d-flex justify-content-center">
+                                                        <div  class="d-flex justify-content-center">
                                                             <div class="form-group col-sm-10 table-addUser">
-                                                                <label for="userIdList"><strong>ID</strong></label>
-                                                                <input th:placeholder="${user.id}" type="text"
-                                                                       name="email" class="form-control"
-                                                                       id="userIdL2ist"
-                                                                       disabled>
+                                                                <label><strong>ID</strong></label>
+                                                                <input th:placeholder="0" id="inputid" type="text"
+                                                                       name="email" class="form-control" disabled
+                                                                       >
                                                             </div>
                                                         </div>
 
                                                         <div class="d-flex justify-content-center">
                                                             <div class="form-group col-sm-10 table-addUser">
                                                                 <label><strong>Email</strong></label>
-                                                                <input th:value="${user.email}" type="text" width=100px
-                                                                       name="email" class="form-control"
+                                                                <input th:placeholder="0" type="text" width=100px
+                                                                       name="email" class="form-control" id="inputemail"
                                                                 >
                                                             </div>
                                                         </div>
@@ -144,7 +127,7 @@
                                                         <div class="d-flex justify-content-center">
                                                             <div class="form-group col-sm-10 table-addUser">
                                                                 <label><strong>Last name</strong></label>
-                                                                <input th:value="${user.lastName}" type="text"
+                                                                <input id="inputlname" th:placeholder="0" type="text"
                                                                        width=100px name="lastName" class="form-control"
                                                                 >
                                                             </div>
@@ -153,7 +136,7 @@
                                                         <div class="d-flex justify-content-center">
                                                             <div class="form-group col-sm-10 table-addUser">
                                                                 <label><strong>First name</strong></label>
-                                                                <input th:value="${user.firstName}" type="text"
+                                                                <input  id="inputfname" th:placeholder="0"   type="text"
                                                                        width=100px name="firstName" class="form-control"
                                                                 >
                                                             </div>
@@ -161,7 +144,7 @@
                                                         <div class="d-flex justify-content-center">
                                                             <div class="form-group col-sm-10 table-addUser">
                                                                 <label><strong>Age</strong></label>
-                                                                <input th:value="${user.age}" type="text"
+                                                                <input  id="inputage" th:placeholder="0"  type="text"
                                                                        width=100px name="age" class="form-control"
                                                                 >
                                                             </div>
@@ -169,7 +152,7 @@
                                                         <div class="d-flex justify-content-center">
                                                             <div class="form-group col-sm-10 table-addUser">
                                                                 <label><strong>Password</strong></label>
-                                                                <input type="text"
+                                                                <input  id="inputpass" th:placeholder="0"  type="text"
                                                                        width=100px name="password" class="form-control"
                                                                 >
                                                             </div>
@@ -200,22 +183,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <td scope="col">
-                                        <button type="button"
-                                                class="btn btn-primary"
-                                                id="button-delete"
-                                                data-target="#modalDelete"
-                                                data-toggle="modal"
-                                                th:utext="Delete"
-                                                th:attrappend="data-target=${user.id}">
-                                        </button>
-                                    </td>
+
                                     <!-- The Modal -->
-                                    <div class="modal" id="modalDelete" th:attrappend="id=${user.id}">
+                                 <!--   <div class="modal" id="modalDelete" th:attrappend="id=${user.id}">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
 
-                                                <!-- Modal Header -->
+                                                &lt;!&ndash; Modal Header &ndash;&gt;
                                                 <div class="modal-header">
                                                     <h4 class="modal-title"
                                                         th:utext="'Delete user ' + ${user.lastName}"></h4>
@@ -223,7 +197,7 @@
                                                     </button>
                                                 </div>
 
-                                                <!-- Modal body -->
+                                                &lt;!&ndash; Modal body &ndash;&gt;
                                                 <div class="modal-body">
 
                                                     <form th:action="'/admin/delete/' + ${user.id}" method="POST">
@@ -291,7 +265,7 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <!-- Modal footer -->
+                                                        &lt;!&ndash; Modal footer &ndash;&gt;
                                                         <div class="modal-footer">
                                                             <button id="button-close1" type="button" class="btn"
                                                                     data-dismiss="modal">Закрыть
@@ -304,7 +278,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>-->
                                 </tr>
                             </th:block>
                             </tbody>
@@ -389,5 +363,7 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript" src="js/main.js"></script>
 </body>
 </html>

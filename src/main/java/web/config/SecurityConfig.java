@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin()
+        /*http.formLogin()
                 // указываем страницу с формой логина
                 .loginPage("/login")
                 //указываем логику обработки при логине
@@ -44,7 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("j_username")
                 .passwordParameter("j_password")
                 // даем доступ к форме логина всем
-                .permitAll();
+                .permitAll();*/
+
 
         http.logout()
                 // разрешаем делать логаут всем
@@ -60,11 +61,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        5) Юзер должен иметь доступ только к своей домашней странице, где выводятся все его данные
         http
                 .authorizeRequests() // делаем страницу регистрации недоступной для авторизированных пользователей
-                .antMatchers("/login").anonymous() //страницы аутентификации доступна всем
+                .antMatchers("/").anonymous(); //страницы аутентификации доступна всем
                 // защищенные URL
-                .antMatchers("/", "/admin/*").access("hasAuthority('ADMIN')")
-                .antMatchers("/userprofile").access("hasAnyAuthority('ADMIN','USER')")
-        ;
+              /*  .antMatchers("/", "/admin/*").access("hasAuthority('ADMIN')")
+                .antMatchers("/userprofile").access("hasAnyAuthority('ADMIN','USER')")*/
+
     }
 
     @Bean
