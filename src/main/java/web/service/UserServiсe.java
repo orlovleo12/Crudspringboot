@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserServiсe {
     void addUser(User user);
 
-    void deleteUser(int userId);
+    void deleteUser(Long userId);
 
     void updateUser(User user);
 

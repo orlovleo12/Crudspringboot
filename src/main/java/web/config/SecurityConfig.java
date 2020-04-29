@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+@Configuration
 @ComponentScan("web")
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -20,10 +22,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Qualifier("userServiceImpl")
     @Autowired
     private UserDetailsService userDetailsService;
 
+//     измените настройку секьюрности с inMemory на userDetailService.
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
@@ -31,20 +33,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder);
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        /*http.formLogin()
+        http.formLogin()
                 // указываем страницу с формой логина
-                .loginPage("/login")
+               // .loginPage("/login")
                 //указываем логику обработки при логине
                 .successHandler(new LoginSuccessHandler())
-                // указываем action с формы логина
-                .loginProcessingUrl("/login")
-                .usernameParameter("j_username")
-                .passwordParameter("j_password")
                 // даем доступ к форме логина всем
-                .permitAll();*/
+                .permitAll();
 
 
         http.logout()
@@ -52,20 +49,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 // указываем URL логаута
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                // указываем URL при удачном логауте
-                .logoutSuccessUrl("/login?logout")
-                //выклчаем кроссдоменную секьюрность (на этапе обучения неважна)
+                //выключаем кроссдоменную секьюрность (на этапе обучения неважна)
                 .and().csrf().disable();
 
 //        4) Все CRUD операции и страницы для них должны быть доступны только для админа
 //        5) Юзер должен иметь доступ только к своей домашней странице, где выводятся все его данные
         http
                 .authorizeRequests() // делаем страницу регистрации недоступной для авторизированных пользователей
-                .antMatchers("/").anonymous(); //страницы аутентификации доступна всем
+                .antMatchers("/login").anonymous() //страницы аутентификации доступна всем
                 // защищенные URL
-              /*  .antMatchers("/", "/admin/*").access("hasAuthority('ADMIN')")
-                .antMatchers("/userprofile").access("hasAnyAuthority('ADMIN','USER')")*/
-
+                .antMatchers("/","/users/list", "/users/update", "/users/update/*", "/users/create").access("hasAuthority('ADMIN')")
+                .antMatchers("/users/read").access("hasAnyAuthority('ADMIN','USER')")
+                ;
     }
 
     @Bean

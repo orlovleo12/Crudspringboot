@@ -1,6 +1,4 @@
 package web.model;
-
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,106 +9,111 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
-    @Id
-    @GenericGenerator(name = "123", strategy = "increment")
-    @GeneratedValue(generator = "123")
-    private int id;
 
-    private String firstName;
+   @Id
+   @Column(name = "Id")
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Long id;
 
-    private String lastName;
+   @Column(name = "user_name")
+   private String username;
 
-    private String age;
+   @Column(name = "Email")
+   private String email;
 
-    private String email;
+   @Column(name = "Password")
+   private String password;
 
-    private String password;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    private Set<Role> roles;
+   @Column
+   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL) // значения ролей в jsp подтягиваются из БД
+   private Set<Role> roles;
 
-    public String getFirstName() {
-        return firstName;
-    }
+   public User() {}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+   public User(String username, String email, String password, Set<Role> roles) {
+      this.username = username;
+      this.email = email;
+      this.password = password;
+      this.roles = roles;
+   }
 
-    public int getId() {
-        return id;
-    }
+   public User(long id, String username, String email, String password, Set<Role> roles) {
+      this.id = id;
+      this.username = username;
+      this.email = email;
+      this.password = password;
+      this.roles = roles;
+   }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
-    public String getPassword() {
-        return password;
-    }
+   @Override
+   public String toString() {
+      return String.format("User id is %s\n, User name is %s\n, User email is %s\n, User password is %s\n, User roles are %s\n",
+              id, username, email, password, roles);
+   }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+   public Long getId() {
+      return id;
+   }
 
-    @Override
-    public String getUsername() {
-        return firstName;
-    }
+   public void setId(Long id) {
+      this.id = id;
+   }
 
-    public Set<Role> getRole() {
-        return roles;
-    }
+   public String getUsername() {
+      return username;
+   }
 
-    public String getLastName() {
-        return lastName;
-    }
+   public void setUsername(String username) {
+      this.username = username;
+   }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+   public Set<Role> getRoles() {
+      return roles;
+   }
 
-    public String getAge() {
-        return age;
-    }
+   public void setRoles(Set<Role> roles) {
+      this.roles = roles;
+   }
 
-    public void setAge(String age) {
-        this.age = age;
-    }
+   public String getPassword() {
+      return password;
+   }
 
-    public String getEmail() {
-        return email;
-    }
+   public void setPassword(String password) {
+      this.password = password;
+   }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+   public String getEmail() {
+      return email;
+   }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
+   public void setEmail(String email) {
+      this.email = email;
+   }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+   @Override
+   public boolean isAccountNonExpired() {
+      return true;
+   }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+   @Override
+   public boolean isAccountNonLocked() {
+      return true;
+   }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+   @Override
+   public boolean isCredentialsNonExpired() {
+      return true;
+   }
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+   @Override
+   public boolean isEnabled() {
+      return true;
+   }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
-    }
+   @Override
+   public Collection<? extends GrantedAuthority> getAuthorities() {
+      return roles;
+   }
 }

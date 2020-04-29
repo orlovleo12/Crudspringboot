@@ -1,4 +1,3 @@
-
 package web.config;
 
 import org.springframework.security.core.Authentication;
@@ -16,26 +15,24 @@ import java.io.IOException;
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
-    //    7) Настройте LoginSuccessHandler так, чтобы админа направляло на страницы CRUD, а юзера на его страницу.
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
+    public void onAuthenticationSuccess(
+                                        HttpServletRequest httpServletRequest,
                                         HttpServletResponse httpServletResponse,
                                         Authentication authentication) throws IOException, ServletException {
         User user = (User) authentication.getPrincipal();
+        HttpSession session = httpServletRequest.getSession();
+        session.setAttribute("user", user);
         if (user.getAuthorities()
                 .stream()
                 .anyMatch(role -> "ADMIN".equals(role.getAuthority())
                 )) {
-            HttpSession session = httpServletRequest.getSession();
-            session.setAttribute("user", user);
-            httpServletResponse.sendRedirect("/");
+            httpServletResponse.sendRedirect("/users/list");
         } else if (user.getAuthorities()
                 .stream()
                 .anyMatch(role -> "USER".equals(role.getAuthority())
                 )) {
-            HttpSession session = httpServletRequest.getSession();
-            session.setAttribute("user", user);
-            httpServletResponse.sendRedirect("/userprofile");
+            httpServletResponse.sendRedirect("/users/read");
         }
     }
 }

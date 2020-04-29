@@ -33,14 +33,14 @@ public class UserDaoHibernateImpl implements UserDao {
     }
 
     @Override
-    public void deleteUser(int userId) {
+    public void deleteUser(Long userId) {
         em.remove(getUserById(userId));
     }
 
     @Override
     public void updateUser(User application) {
         Set<Role> roles = new HashSet<>();
-        Iterator<Role> it = application.getRole().iterator();
+        Iterator<Role> it = application.getRoles().iterator();
         while(it.hasNext()){
             Role role = it.next();
             roles.add(roleDaoImp.getRoleByName(role.getName()));
@@ -55,7 +55,7 @@ public class UserDaoHibernateImpl implements UserDao {
     }
 
     @Override
-    public User getUserById(int userId) {
+    public User getUserById(Long userId) {
         return (User) em.find(User.class, userId);
     }
 
