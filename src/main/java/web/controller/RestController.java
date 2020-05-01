@@ -4,11 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import web.dao.UserDao;
 import web.model.User;
-import web.service.RoleServiceImp;
 import web.service.UserServiceImpl;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @org.springframework.web.bind.annotation.RestController
@@ -16,8 +15,9 @@ import java.util.List;
 public class RestController {
     @Autowired
     public UserServiceImpl userService;
+
     @Autowired
-    public RoleServiceImp roleService;
+    public UserDao userDao;
 
     @GetMapping(path = "list")
     public ResponseEntity<List<User>> listUserGetRestController() {
@@ -27,7 +27,6 @@ public class RestController {
 
     @PutMapping(path = "update")
     public ResponseEntity<User> updateUserPutRestController(@RequestBody User user) {
-
         userService.updateUser(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -38,15 +37,20 @@ public class RestController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @GetMapping(path = "read")
-    public ResponseEntity<User> readUserGetRestController(HttpSession session) {
-        return new ResponseEntity<>((User) session.getAttribute("user"), HttpStatus.OK);
+    @GetMapping(path = "read/{s}")
+    public ResponseEntity<User> readUserGetRestController(@PathVariable Long s) {
+        return new ResponseEntity<User>(userDao.getUserById(s), HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "delete")
-    public ResponseEntity<List<User>> deleteUserRestController(@RequestBody Long id) {
+    @DeleteMapping(path = "delete/{id}")
+    public ResponseEntity<List<User>> deleteUserRestController(@PathVariable Long id) {
         userService.deleteUser(id);
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "user/{s}")
+    public ResponseEntity<User> userGetRestController(@PathVariable String s) {
+        return new ResponseEntity<User>(userDao.getUserByUsername(s), HttpStatus.OK);
     }
 }
 

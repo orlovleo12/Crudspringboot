@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User implements UserDetails {
+public class User /*implements UserDetails */{
 
    @Id
    @Column(name = "Id")
@@ -25,7 +25,7 @@ public class User implements UserDetails {
    private String password;
 
    @Column
-   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL) // значения ролей в jsp подтягиваются из БД
+   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE) // значения ролей в jsp подтягиваются из БД
    private Set<Role> roles;
 
    public User() {}
@@ -92,7 +92,7 @@ public class User implements UserDetails {
       this.email = email;
    }
 
-   @Override
+ /*  @Override
    public boolean isAccountNonExpired() {
       return true;
    }
@@ -110,10 +110,10 @@ public class User implements UserDetails {
    @Override
    public boolean isEnabled() {
       return true;
-   }
+   }*/
 
-   @Override
+   /*@Override
    public Collection<? extends GrantedAuthority> getAuthorities() {
       return roles;
-   }
+   }*/
 }

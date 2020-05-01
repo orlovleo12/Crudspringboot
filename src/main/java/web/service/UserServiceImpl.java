@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserServiсe, UserDetailsService {
+public class UserServiceImpl implements UserServiсe/*, UserDetailsService*/ {
+
     @Autowired
     private UserDao userDao;
 
@@ -37,7 +38,11 @@ public class UserServiceImpl implements UserServiсe, UserDetailsService {
     @Override
     @Transactional
     public void updateUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getPassword().equals("")) {
+            user.setPassword(userDao.getUserByUsername(user.getUsername()).getPassword());
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         userDao.updateUser(user);
     }
 
@@ -53,10 +58,10 @@ public class UserServiceImpl implements UserServiсe, UserDetailsService {
         return userDao.getUserById((long) userId);
     }
 
-    @Override
+    /*@Override
     @Transactional
     public UserDetails loadUserByUsername(String username) {
         Optional<User> userCandidate = Optional.ofNullable(userDao.getUserByUsername(username));
         return userCandidate.orElseThrow(IllegalArgumentException::new);
-    }
+    }*/
 }

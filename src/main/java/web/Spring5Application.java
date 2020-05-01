@@ -8,10 +8,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class Spring5Application {
-    @Autowired
+
     private static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    public static void main(String[] args) { System.out.println(passwordEncoder.encode("admin"));
-        SpringApplication.run(Spring5Application.class, args);
+    public static void main(String[] args) {
         System.out.println(passwordEncoder.encode("admin"));
+        SpringApplication.run(Spring5Application.class, args);
+
     }
 }
